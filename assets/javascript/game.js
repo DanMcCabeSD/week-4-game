@@ -6,9 +6,20 @@ var lost = 0;
 var previous = 0;
 
 var resetAndStart = function () {
+
+	$(".crystals").empty();
+
+	var images = [
+	'http://vignette1.wikia.nocookie.net/marvel-contestofchampions/images/1/10/Arena_Crystal.png/revision/latest?cb=20150825214845',
+	'https://vignette.wikia.nocookie.net/marvel-contestofchampions/images/1/1c/2-Star_Crystal.png/revision/latest?cb=20150825213642',
+	'https://vignette.wikia.nocookie.net/marvel-contestofchampions/images/a/ad/Crystal_generic4.png/revision/latest?cb=20151121235143',
+	'http://vignette1.wikia.nocookie.net/marvel-contestofchampions/images/1/10/Arena_Crystal.png/revision/latest?cb=20150825214845'
+	]
+
 	random_result = Math.floor(Math.random() * 101 ) + 19; 
 
 	$("#result").html('Random Result: ' + random_result);
+	$("div.crystal").remove();
 
 	for(var i = 0; i < 4; i++){
 
@@ -22,12 +33,15 @@ var resetAndStart = function () {
 				"data-random": random
 			});
 
-			crystal.html(random);
+			crystal.css({
+				"background-image":"url('" + images[i] + "')",
+				"background-size": "cover"
+			})
 
 		$(".crystals").append(crystal);
 
-	}
-
+		}
+	$("#previous").html("Total Score: " + previous);
 }
 
 resetAndStart();
@@ -45,12 +59,14 @@ $(document).on('click', ".crystal", function () {
 
 	previous += num;
 
-	console.log
+	$("#previous").html("Total Score: " + previous);	
+
+	console.log(previous);
 
 	if(previous > random_result){
-		lost--;
+		lost++;
 
-		$("#lost").html(lost);
+		$("#lost").html("Losses: " + lost);
 
 		previous = 0;
 
@@ -59,7 +75,7 @@ $(document).on('click', ".crystal", function () {
 	else if (previous === random_result){
 		win++;
 
-		$("#win").html(win);
+		$("#win").html("Wins: " + win);
 
 		previous = 0;
 
